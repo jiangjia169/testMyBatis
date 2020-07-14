@@ -82,7 +82,7 @@ public class UserMapperTest {
     public void update() {
         SqlSession sqlSesison = factory.openSession();
         UserMapper userMapper = sqlSesison.getMapper(UserMapper.class);
-        User user = userMapper.selectUserById(29);
+        User user = userMapper.findOne(29);
         user.setUsername("李四");
         userMapper.update(user);
         sqlSesison.commit();

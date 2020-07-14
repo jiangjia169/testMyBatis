@@ -30,5 +30,4 @@ public interface UserMapper {
     //删除用户信息
     public void delete(Integer id);
 
-    User selectUserById(int i);
 }
