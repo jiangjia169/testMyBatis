@@ -77,4 +77,25 @@ public class UserMapperTest {
         //关闭资源
         sqlSession.close();
     }
+
+    @Test
+    public void update() {
+        SqlSession sqlSesison = factory.openSession();
+        UserMapper userMapper = sqlSesison.getMapper(UserMapper.class);
+        User user = userMapper.selectUserById(29);
+        user.setUsername("李四");
+        userMapper.update(user);
+        sqlSesison.commit();
+        sqlSesison.close();
+    }
+
+    @Test
+    public void delete() {
+        SqlSession sqlSesison = factory.openSession();
+        UserMapper userMapper = sqlSesison.getMapper(UserMapper.class);
+        userMapper.delete(29);
+        sqlSesison.commit();
+        sqlSesison.close();
+    }
+
 }

@@ -56,4 +56,10 @@
         </where>
     </select>
 
+
+    <select id="findListByIds" parameterType="UserQueryVO" resultType="UserCustom">
+        select * from user
+        where sex=1 and username like concat('%','明','%') and (id=15 or id=20 or id=25);
+    </select>
+
 </mapper>

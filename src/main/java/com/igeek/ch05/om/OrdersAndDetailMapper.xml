@@ -34,4 +34,30 @@
         where o.id = d.orders_id
     </select>
 
+    <!-- 需求：查询订单及订单明细的信息，及用户信息  -->
+    <resultMap type="OrdersCustom" id="result" extends="OrdersAndOrderDetailResultMap">
+        <!-- 订单信息 -->
+        <!-- 订单详情信息 -->
+        <!-- 用户信息 : 一对一  -->
+        <association property="userCustom" javaType="UserCustom">
+            <id column="user_id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="sex" property="sex"/>
+            <result column="birthday" property="birthday"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+    <select id="selectOrderANDOrderDetailUser" resultMap="result">
+        select orders.*,
+        orderdetail.id od_id ,
+        orderdetail.items_id,
+        orderdetail.items_num,
+        user.sex,
+        user.username,
+        user.address,
+        user.birthday
+        from orders,orderdetail,user
+        where orders.id = orderdetail.orders_id  and  orders.user_id = user.id
+    </select>
+
 </mapper>
