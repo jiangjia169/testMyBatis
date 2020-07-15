@@ -32,14 +32,13 @@ public class OrdersAndDetailMapperTest {
     }
 
     @Test
-    public void testSelectOrderANDOrderDetailUser(){
+    public void findList(){
         SqlSession sqlSession = factory.openSession();
         OrdersAndDetailMapper mapper = sqlSession.getMapper(OrdersAndDetailMapper.class);
-        List<OrdersCustom> list = mapper.selectOrderANDOrderDetailUser();
-        for (OrdersCustom ordersCustom : list) {
-            System.out.println(ordersCustom);
+        List<OrdersCustom> list = mapper.findList();
+        for(OrdersCustom o : list){
+            System.out.println(o);
         }
-        System.out.println(list.size());
         sqlSession.close();
     }
 }

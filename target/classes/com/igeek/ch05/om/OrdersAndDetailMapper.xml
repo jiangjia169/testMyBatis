@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.igeek.ch05.om.OrdersAndDetailMapper">
 
+    <!-- 查询订单及订单明细的信息 -->
     <resultMap id="map" type="OrdersCustom">
         <!-- 订单信息 -->
         <id column="id" property="id" />
@@ -24,14 +25,41 @@
             <result column="items_id" property="itemsId" />
             <result column="items_num" property="itemsNum" />
         </collection>
-
     </resultMap>
 
-    <!-- 查询订单及订单明细的信息 -->
     <select id="find" resultMap="map">
         select o.* , d.id did , d.items_id ,d.items_num
         from orders o , orderdetail d
         where o.id = d.orders_id
+    </select>
+
+    <!--
+        需求：查询订单、订单明细的信息及下单的用户信息
+        extends属性  可以继承其他resultMap
+        1). 若是在同一namespace下，直接extends="resultMap的id"
+        2). 若是在不同namespace下，直接extends="namespace.resultMap的id"
+    -->
+    <resultMap id="includeUserMap" type="OrdersCustom" extends="map">
+        <!-- 订单信息 -->
+        <!-- 一对多关联 订单详情信息 -->
+
+        <!-- 一对一关联 用户信息 -->
+        <association property="userCustom" javaType="UserCustom">
+            <id column="user_id" property="id" />
+            <result column="username" property="username" />
+            <result column="sex" property="sex" />
+            <result column="birthday" property="birthday" />
+            <result column="address" property="address" />
+        </association>
+    </resultMap>
+
+
+    <select id="findList" resultMap="includeUserMap">
+        select o.*,
+               d.id did , d.items_id ,d.items_num ,
+               u.username , u.birthday , u.sex , u.address
+        from orders o , user u , orderdetail d
+        where o.user_id = u.id and o.id = d.orders_id
     </select>
 
 </mapper>

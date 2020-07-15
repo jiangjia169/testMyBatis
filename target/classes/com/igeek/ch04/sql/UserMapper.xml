@@ -16,10 +16,20 @@
         </if>
     </sql>
 
-    <sql id="user_query_id">
+    <!-- and id in(15,20,25) -->
+    <!--<sql id="user_query_id">
         <if test="ids!=null">
             <foreach collection="ids" item="id" open="and id in (" close=")" separator=",">
                 #{id}
+            </foreach>
+        </if>
+    </sql>-->
+
+    <!-- and (id=15 or id=20 or id=25) -->
+    <sql id="user_query_id">
+        <if test="ids!=null">
+            <foreach collection="ids" item="items_id" open="and (" close=")" separator="or">
+                id = #{items_id}
             </foreach>
         </if>
     </sql>
